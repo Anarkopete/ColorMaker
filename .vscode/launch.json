@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run MAUI Android App",
+            "type": "coreclr",
+            "request": "launch",
+            "project": "${workspaceFolder}/src/Calculator/Calculator.csproj",
+            "program": "${workspaceFolder}/src/Calculator/bin/Debug/net8.0-android/Calculator.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Calculator",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        }
+    ]
+}
+

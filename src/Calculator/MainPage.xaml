@@ -1,0 +1,41 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calculator.MainPage"
+             BackgroundColor="Black">
+
+    <VerticalStackLayout Padding="20" Spacing="20">
+        
+        <Frame BackgroundColor="White" CornerRadius="20" Padding="20">
+            <VerticalStackLayout Spacing="15">
+
+                <Label Text="Color Maker" FontSize="24" HorizontalOptions="Center" />
+
+                <Label Text="Red Value:" />
+                <Slider x:Name="RedSlider" Minimum="0" Maximum="255" ValueChanged="Slider_ValueChanged"/>
+
+                <Label Text="Green Value:" />
+                <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" ValueChanged="Slider_ValueChanged"/>
+
+                <Label Text="Blue Value:" />
+                <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" ValueChanged="Slider_ValueChanged"/>
+
+                <Label Text="HEX Value:" x:Name="HexLabel" FontSize="18" />
+
+                <Button Text="Copy HEX" 
+                     BackgroundColor="LightGray"
+                     TextColor="Black"
+                     Clicked="Clipboard_Clicked" />
+
+                <BoxView x:Name="ColorBox" HeightRequest="50" CornerRadius="10" />
+
+                <Button Text="Generate Random Color" 
+                        BackgroundColor="Red" 
+                        TextColor="White"
+                        Clicked="RandomButton_Clicked" />
+
+            </VerticalStackLayout>
+        </Frame>
+
+    </VerticalStackLayout>
+
+</ContentPage>

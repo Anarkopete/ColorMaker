@@ -33166,11 +33166,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\juani\\Documents\\Proyectos\\AplicacionEjemplo\\calculator\\src\\calculator\\Calculator.csproj",
+      "projectUniqueName": "C:\\Users\\juani\\Documents\\GitHub\\ColorMaker\\src\\Calculator\\Calculator.csproj",
       "projectName": "Calculator",
-      "projectPath": "C:\\Users\\juani\\Documents\\Proyectos\\AplicacionEjemplo\\calculator\\src\\calculator\\Calculator.csproj",
+      "projectPath": "C:\\Users\\juani\\Documents\\GitHub\\ColorMaker\\src\\Calculator\\Calculator.csproj",
       "packagesPath": "C:\\Users\\juani\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\juani\\Documents\\Proyectos\\AplicacionEjemplo\\calculator\\src\\calculator\\obj\\",
+      "outputPath": "C:\\Users\\juani\\Documents\\GitHub\\ColorMaker\\src\\Calculator\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "configFilePaths": [

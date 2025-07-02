@@ -1,13 +1,16 @@
-﻿namespace Calculator
+﻿using Microsoft.Maui.Controls;
+using Calculator.ViewModels;    // ← Asegúrate de importar tu ViewModel
+
+namespace Calculator
 {
     public partial class App : Application
     {
         public App()
         {
             InitializeComponent();
-
-            // Establecer MainPage como página principal
-            MainPage = new MainPage();
+            var page = new MainPage();
+            page.BindingContext = new MainViewModel();
+            MainPage = page;
         }
     }
 }

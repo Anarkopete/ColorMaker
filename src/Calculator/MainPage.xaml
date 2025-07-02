@@ -1,41 +1,65 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Calculator.MainPage"
-             BackgroundColor="Black">
+             Title="Tip Calculator">
 
-    <VerticalStackLayout Padding="20" Spacing="20">
-        
-        <Frame BackgroundColor="White" CornerRadius="20" Padding="20">
-            <VerticalStackLayout Spacing="15">
+    <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="#121212">
 
-                <Label Text="Color Maker" FontSize="24" HorizontalOptions="Center" />
+        <!-- Tarjeta de totales -->
+        <Frame BackgroundColor="#333333" CornerRadius="15" Padding="15" HasShadow="false">
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,Auto">
+                <!-- Total por persona grande -->
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="{Binding TotalPerPerson, StringFormat='${0:F0}'}"
+                       FontSize="48"
+                       FontAttributes="Bold"
+                       TextColor="White" />
 
-                <Label Text="Red Value:" />
-                <Slider x:Name="RedSlider" Minimum="0" Maximum="255" ValueChanged="Slider_ValueChanged"/>
+                <!-- Subtotal y Propina -->
+                <StackLayout Grid.Row="1" Grid.Column="0" Spacing="5">
+                    <Label Text="SUBTOTAL" FontAttributes="Bold" TextColor="#AAAAAA" />
+                    <Label Text="PROPINA"   FontAttributes="Bold" TextColor="#AAAAAA" />
+                </StackLayout>
 
-                <Label Text="Green Value:" />
-                <Slider x:Name="GreenSlider" Minimum="0" Maximum="255" ValueChanged="Slider_ValueChanged"/>
-
-                <Label Text="Blue Value:" />
-                <Slider x:Name="BlueSlider" Minimum="0" Maximum="255" ValueChanged="Slider_ValueChanged"/>
-
-                <Label Text="HEX Value:" x:Name="HexLabel" FontSize="18" />
-
-                <Button Text="Copy HEX" 
-                     BackgroundColor="LightGray"
-                     TextColor="Black"
-                     Clicked="Clipboard_Clicked" />
-
-                <BoxView x:Name="ColorBox" HeightRequest="50" CornerRadius="10" />
-
-                <Button Text="Generate Random Color" 
-                        BackgroundColor="Red" 
-                        TextColor="White"
-                        Clicked="RandomButton_Clicked" />
-
-            </VerticalStackLayout>
+                <StackLayout Grid.Row="1" Grid.Column="1" Spacing="5">
+                    <Label Text="{Binding SubtotalPerPerson, StringFormat='${0:F0}'}" TextColor="White" />
+                    <Label Text="{Binding TipPerPerson, StringFormat='${0:F0}'}"     TextColor="White" />
+                </StackLayout>
+            </Grid>
         </Frame>
 
-    </VerticalStackLayout>
+        <!-- Entrada de consumo -->
+        <HorizontalStackLayout VerticalOptions="Center" Spacing="5">
+            <Label Text="Valor Boleta:" TextColor="White" VerticalOptions="Center" />
+            <Entry Text="{Binding Consumption, Mode=TwoWay}" Keyboard="Numeric" TextColor="White"
+                   BackgroundColor="#222222" WidthRequest="150" />
+        </HorizontalStackLayout>
 
+        <!-- Botones de propina rápida -->
+        <Label Text="Elige Propina" TextColor="White" />
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="10%" FontSize="20" Command="{Binding SetTipCommand}" CommandParameter="10"
+                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" />
+            <Button Text="15%" FontSize="20" Command="{Binding SetTipCommand}" CommandParameter="15"
+                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" />
+            <Button Text="20%" FontSize="20" Command="{Binding SetTipCommand}" CommandParameter="20"
+                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" />
+        </HorizontalStackLayout>
+
+        <!-- Slider de porcentaje -->
+        <Label Text="{Binding TipPercent, StringFormat='Propina: {0:F0}%'}" TextColor="White" />
+        <Slider Minimum="0" Maximum="50" Value="{Binding TipPercent, Mode=TwoWay}" />
+
+
+        <!-- Control de número de personas -->
+        <Label Text="Dividir el Total" TextColor="White" />
+        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+            <Button Text="-" Command="{Binding DecreasePeopleCommand}"
+                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" WidthRequest="40" />
+            <Label Text="{Binding NumberOfPeople}" FontSize="20" TextColor="White" VerticalOptions="Center" />
+            <Button Text="+" Command="{Binding IncreasePeopleCommand}" 
+                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" WidthRequest="40" />
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
 </ContentPage>

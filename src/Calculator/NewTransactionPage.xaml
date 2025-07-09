@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ExpenseTracker.NewTransactionPage"
+    BackgroundColor="#6200EE"
+    Title="Nueva transacción">
+
+  <AbsoluteLayout>
+
+    <!-- MISMO HEADER CURVO -->
+    <Frame
+      AbsoluteLayout.LayoutBounds="0,0,1,0.33"
+      AbsoluteLayout.LayoutFlags="WidthProportional,HeightProportional"
+      BackgroundColor="#4A1A7C"
+      CornerRadius="0,0,30,30"
+      HasShadow="False">
+      <StackLayout Padding="20">
+        <Label Text="Nueva transacción"
+               TextColor="White"
+               FontSize="24"
+               FontAttributes="Bold" />
+      </StackLayout>
+    </Frame>
+
+    <!-- FORMULARIO -->
+    <Frame
+      AbsoluteLayout.LayoutBounds="0.5,0.35,0.9,0.6"
+      AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional,HeightProportional"
+      BackgroundColor="White"
+      CornerRadius="20"
+      Padding="20"
+      HasShadow="True">
+      <VerticalStackLayout Spacing="15">
+
+        <!-- Glosa -->
+        <Label Text="Glosa" TextColor="#666" />
+        <Entry Text="{Binding EntryDescription, Mode=TwoWay}"
+               Placeholder="Descripción"
+               BackgroundColor="Transparent"
+               Keyboard="Default" />
+
+        <!-- Cantidad -->
+        <Label Text="Cantidad" TextColor="#666" />
+        <Entry Text="{Binding EntryAmount, Mode=TwoWay}"
+               Placeholder="0"
+               BackgroundColor="Transparent"
+               Keyboard="Numeric" />
+
+        <!-- Fecha -->
+        <Label Text="Fecha" TextColor="#666" />
+        <DatePicker Date="{Binding EntryDate, Mode=TwoWay}" />
+
+        <!-- ¿Es ingreso? -->
+        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+          <CheckBox IsChecked="{Binding IsIncome, Mode=TwoWay}"
+                    Color="#4A1A7C" />
+          <Label Text="¿Es ingreso?" VerticalOptions="Center" TextColor="#000" />
+        </HorizontalStackLayout>
+
+        <!-- Botones Guardar/Cancelar -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+          <Button Text="Guardar"
+                  BackgroundColor="#4A1A7C"
+                  TextColor="White"
+                  CornerRadius="10"
+                  WidthRequest="100"
+                  Command="{Binding SaveCommand}" />
+          <Button Text="Cancelar"
+                  BackgroundColor="#A00"
+                  TextColor="White"
+                  CornerRadius="10"
+                  WidthRequest="100"
+                  Command="{Binding CancelCommand}" />
+        </HorizontalStackLayout>
+
+      </VerticalStackLayout>
+    </Frame>
+
+  </AbsoluteLayout>
+</ContentPage>

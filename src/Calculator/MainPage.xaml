@@ -1,65 +1,119 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Calculator.MainPage"
-             Title="Tip Calculator">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:conv="clr-namespace:ExpenseTracker.Converters"
+    x:Class="ExpenseTracker.MainPage"
+    BackgroundColor="#6200EE"
+    Title="GASTOS">
 
-    <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="#121212">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <conv:IncomeColorConverter x:Key="IncomeColorConverter" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
 
-        <!-- Tarjeta de totales -->
-        <Frame BackgroundColor="#333333" CornerRadius="15" Padding="15" HasShadow="false">
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,Auto">
-                <!-- Total por persona grande -->
-                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                       Text="{Binding TotalPerPerson, StringFormat='${0:F0}'}"
-                       FontSize="48"
-                       FontAttributes="Bold"
-                       TextColor="White" />
+  <AbsoluteLayout>
 
-                <!-- Subtotal y Propina -->
-                <StackLayout Grid.Row="1" Grid.Column="0" Spacing="5">
-                    <Label Text="SUBTOTAL" FontAttributes="Bold" TextColor="#AAAAAA" />
-                    <Label Text="PROPINA"   FontAttributes="Bold" TextColor="#AAAAAA" />
-                </StackLayout>
+    <!-- HEADER CURVO -->
+    <Frame
+      AbsoluteLayout.LayoutBounds="0,0,1,0.33"
+      AbsoluteLayout.LayoutFlags="WidthProportional,HeightProportional"
+      BackgroundColor="#4A1A7C"
+      CornerRadius="0,0,30,30"
+      HasShadow="False"
+      ZIndex="0">
+      <StackLayout Padding="20">
+        <Label Text="Hola," TextColor="White" FontSize="14" />
+        <Label Text="Alexis Henríquez"
+               TextColor="White"
+               FontSize="24"
+               FontAttributes="Bold" />
+      </StackLayout>
+    </Frame>
 
-                <StackLayout Grid.Row="1" Grid.Column="1" Spacing="5">
-                    <Label Text="{Binding SubtotalPerPerson, StringFormat='${0:F0}'}" TextColor="White" />
-                    <Label Text="{Binding TipPerPerson, StringFormat='${0:F0}'}"     TextColor="White" />
-                </StackLayout>
+    <!-- TARJETA DE RESUMEN -->
+    <Frame
+      AbsoluteLayout.LayoutBounds="0.5,0.32,0.9,0.25"
+      AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional,HeightProportional"
+      BackgroundColor="White"
+      CornerRadius="20"
+      Padding="20"
+      HasShadow="True"
+      ZIndex="5">
+      <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+        <Label Text="Balance" TextColor="#888" Grid.Row="0" Grid.Column="0" />
+        <Label Text="{Binding Balance, StringFormat='${0:N2}'}"
+               Grid.Row="1" Grid.Column="0"
+               FontSize="28" FontAttributes="Bold" TextColor="#000" />
+
+        <StackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+          <Label Text="Ingresos" TextColor="#888" HorizontalOptions="End" />
+          <Label Text="{Binding TotalIncome, StringFormat='${0:N2}'}"
+                 FontAttributes="Bold" TextColor="#0A0" HorizontalOptions="End" />
+        </StackLayout>
+        <StackLayout Grid.Row="1" Grid.Column="1" Spacing="4">
+          <Label Text="Egresos" TextColor="#888" HorizontalOptions="End" />
+          <Label Text="{Binding TotalExpense, StringFormat='${0:N2}'}"
+                 FontAttributes="Bold" TextColor="#A00" HorizontalOptions="End" />
+        </StackLayout>
+      </Grid>
+    </Frame>
+
+    <!-- BOTÓN + (FAB) -->
+    <Frame
+      AbsoluteLayout.LayoutBounds="0.9,0.4,60,60"
+      AbsoluteLayout.LayoutFlags="PositionProportional"
+      CornerRadius="30"
+      HasShadow="True"
+      BackgroundColor="#4A1A7C"
+      Padding="0"
+      ZIndex="10">
+      <Button
+        BackgroundColor="Transparent"
+        Text="+"
+        TextColor="White"
+        FontSize="30"
+        Clicked="OnAddTransactionClicked"/>
+    </Frame>
+
+    <!-- LISTADO DE TRANSACCIONES O VISTA VACÍA -->
+    <Frame
+      AbsoluteLayout.LayoutBounds="0,0.6,1,0.4"
+      AbsoluteLayout.LayoutFlags="WidthProportional,HeightProportional"
+      CornerRadius="20"
+      HasShadow="True"
+      BackgroundColor="White"
+      Padding="0"
+      ZIndex="1">
+      
+      <CollectionView ItemsSource="{Binding Transactions}">
+        <CollectionView.EmptyView>
+          <Label Text="Sin datos, haz clic en el botón + para agregar una nueva transacción"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center"
+                 TextColor="#666"
+                 Margin="20" />
+        </CollectionView.EmptyView>
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <Grid Padding="10" ColumnDefinitions="2*,Auto">
+              <StackLayout>
+                <Label Text="{Binding Description}" TextColor="#000" FontAttributes="Bold" />
+                <Label Text="{Binding Date, StringFormat='{0:dd-MM-yyyy}'}"
+                       TextColor="#666"
+                       FontSize="12" />
+              </StackLayout>
+              <Label Text="{Binding Amount, StringFormat='{0:C2}'}"
+                     TextColor="{Binding IsIncome, Converter={StaticResource IncomeColorConverter}}"
+                     HorizontalOptions="End"
+                     VerticalOptions="Center" />
             </Grid>
-        </Frame>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+      
+    </Frame>
 
-        <!-- Entrada de consumo -->
-        <HorizontalStackLayout VerticalOptions="Center" Spacing="5">
-            <Label Text="Valor Boleta:" TextColor="White" VerticalOptions="Center" />
-            <Entry Text="{Binding Consumption, Mode=TwoWay}" Keyboard="Numeric" TextColor="White"
-                   BackgroundColor="#222222" WidthRequest="150" />
-        </HorizontalStackLayout>
-
-        <!-- Botones de propina rápida -->
-        <Label Text="Elige Propina" TextColor="White" />
-        <HorizontalStackLayout Spacing="10">
-            <Button Text="10%" FontSize="20" Command="{Binding SetTipCommand}" CommandParameter="10"
-                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" />
-            <Button Text="15%" FontSize="20" Command="{Binding SetTipCommand}" CommandParameter="15"
-                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" />
-            <Button Text="20%" FontSize="20" Command="{Binding SetTipCommand}" CommandParameter="20"
-                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" />
-        </HorizontalStackLayout>
-
-        <!-- Slider de porcentaje -->
-        <Label Text="{Binding TipPercent, StringFormat='Propina: {0:F0}%'}" TextColor="White" />
-        <Slider Minimum="0" Maximum="50" Value="{Binding TipPercent, Mode=TwoWay}" />
-
-
-        <!-- Control de número de personas -->
-        <Label Text="Dividir el Total" TextColor="White" />
-        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-            <Button Text="-" Command="{Binding DecreasePeopleCommand}"
-                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" WidthRequest="40" />
-            <Label Text="{Binding NumberOfPeople}" FontSize="20" TextColor="White" VerticalOptions="Center" />
-            <Button Text="+" Command="{Binding IncreasePeopleCommand}" 
-                    BackgroundColor="#6200EE" TextColor="White" CornerRadius="10" WidthRequest="40" />
-        </HorizontalStackLayout>
-
-    </VerticalStackLayout>
+  </AbsoluteLayout>
 </ContentPage>

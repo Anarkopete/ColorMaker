@@ -1,18 +1,18 @@
-﻿namespace Calculator;
+﻿using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
+using ExpenseTracker;
 
-public static class MauiProgram
+namespace ExpenseTracker  // ← aquí
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
-
-		return builder.Build();
-	}
+    public static class MauiProgram
+    {
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
+            // … registra tus servicios, fuentes, estilos, etc.
+            builder.UseMauiApp<App>();
+            return builder.Build();
+        }
+    }
 }
+

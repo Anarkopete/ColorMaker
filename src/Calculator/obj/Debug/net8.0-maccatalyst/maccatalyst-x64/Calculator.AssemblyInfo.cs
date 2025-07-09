@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Calculator")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("ExpenseTracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+c1e69ebe18f9d0ad1c3336729fa9c1f9c8a7466a")]
-[assembly: System.Reflection.AssemblyProductAttribute("Calculator")]
-[assembly: System.Reflection.AssemblyTitleAttribute("Calculator")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+e265042c2000301d2f91eb22f743453f492ae31e")]
+[assembly: System.Reflection.AssemblyProductAttribute("ExpenseTracker")]
+[assembly: System.Reflection.AssemblyTitleAttribute("ExpenseTracker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("MacCatalyst18.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("MacCatalyst13.1")]

@@ -1,85 +1,73 @@
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
-using Calculator.Models;
+using ExpenseTracker.Models;
+using ExpenseTracker.Services;
 
-namespace Calculator.ViewModels
+namespace ExpenseTracker.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private decimal _consumption;
-        private int _numberOfPeople = 1;
-        private double _tipPercent;
-
-
+        private readonly DatabaseService _db;
 
         public MainViewModel()
         {
-            SetTipCommand = new Command<string>(OnSetTip);
-            DecreasePeopleCommand = new Command(() =>
-            {
-                if (NumberOfPeople > 1)
-                    NumberOfPeople--;
-            });
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "expense.db");
+            _db = new DatabaseService(dbPath);
+            Transactions = new ObservableCollection<TransactionModel>(_db.GetAll());
 
-            IncreasePeopleCommand = new Command(() =>
-            {
-                NumberOfPeople++;
-            });
+            AddIncomeCommand = new Command(OnAddIncome);
+            AddExpenseCommand = new Command(OnAddExpense);
 
+            Recalculate();
         }
 
-        public decimal Consumption
+        public decimal EntryAmount { get; set; }
+        public string EntryDescription { get; set; }
+
+        public ObservableCollection<TransactionModel> Transactions { get; }
+
+        public decimal TotalIncome { get; private set; }
+        public decimal TotalExpense { get; private set; }
+        public decimal Balance => TotalIncome - TotalExpense;
+
+        public ICommand AddIncomeCommand { get; }
+        public ICommand AddExpenseCommand { get; }
+
+        private void OnAddIncome()
+            => AddTransaction(true);
+
+        private void OnAddExpense()
+            => AddTransaction(false);
+
+        private void AddTransaction(bool isIncome)
         {
-            get => _consumption;
-            set { _consumption = value; OnPropertyChanged(); Recalculate(); }
+            var tx = new TransactionModel {
+                Date = DateTime.Now,
+                Description = EntryDescription,
+                Amount = EntryAmount,
+                IsIncome = isIncome
+            };
+            _db.AddTransaction(tx);
+            Transactions.Add(tx);
+            Recalculate();
         }
-
-        public int NumberOfPeople
-        {
-            get => _numberOfPeople;
-            set
-            {
-                if (_numberOfPeople == value) return;
-                _numberOfPeople = value;
-                OnPropertyChanged(nameof(NumberOfPeople));
-                Recalculate();
-            }
-        }
-
-        public ICommand DecreasePeopleCommand { get; }
-        public ICommand IncreasePeopleCommand { get; }
-
-        
-        public double TipPercent
-        {
-            get => _tipPercent;
-            set { _tipPercent = value; OnPropertyChanged(); Recalculate(); }
-        }
-
-        public ICommand SetTipCommand { get; }
-
-        private void OnSetTip(string param)
-        {
-            if (int.TryParse(param, out int pct))
-                TipPercent = pct;
-        }
-
-        public double SubtotalPerPerson { get; private set; }
-        public double TipPerPerson      { get; private set; }
-        public double TotalPerPerson    { get; private set; }
 
         private void Recalculate()
         {
-            SubtotalPerPerson = (double)Consumption / NumberOfPeople;
-            double totalTip = (double)Consumption * TipPercent / 100.0;
-            TipPerPerson = totalTip / NumberOfPeople;
-            TotalPerPerson = SubtotalPerPerson + TipPerPerson;
-            OnPropertyChanged(nameof(SubtotalPerPerson));
-            OnPropertyChanged(nameof(TipPerPerson));
-            OnPropertyChanged(nameof(TotalPerPerson));
+            TotalIncome = 0;
+            TotalExpense = 0;
+            foreach(var tx in Transactions)
+            {
+                if(tx.IsIncome) TotalIncome += tx.Amount;
+                else TotalExpense += tx.Amount;
+            }
+            OnPropertyChanged(nameof(TotalIncome));
+            OnPropertyChanged(nameof(TotalExpense));
+            OnPropertyChanged(nameof(Balance));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

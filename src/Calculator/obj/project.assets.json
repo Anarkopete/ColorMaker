@@ -36794,7 +36794,11 @@
     "version": "1.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\juani\\Documents\\GitHub\\ColorMaker2\\src\\Calculator\\Calculator.csproj",
+<<<<<<< Updated upstream
       "projectName": "ExpenseTracker",
+=======
+      "projectName": "Calculator",
+>>>>>>> Stashed changes
       "projectPath": "C:\\Users\\juani\\Documents\\GitHub\\ColorMaker2\\src\\Calculator\\Calculator.csproj",
       "packagesPath": "C:\\Users\\juani\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\juani\\Documents\\GitHub\\ColorMaker2\\src\\Calculator\\obj\\",

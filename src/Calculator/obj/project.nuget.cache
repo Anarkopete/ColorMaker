@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "U4mZgURQ388=",
+=======
+  "dgSpecHash": "F8boOVmBS34=",
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "C:\\Users\\juani\\Documents\\GitHub\\ColorMaker2\\src\\Calculator\\Calculator.csproj",
   "expectedPackageFiles": [
